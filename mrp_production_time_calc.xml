@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="mrp_production_add_fields_form_view" model="ir.ui.view">
+            <field name="name">mrp.production.add.fields.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="date_planned" position="after">
+                        <div>
+                            <label for="date_planned_end"/>
+                            <field name="date_planned_end"/>
+                        </div>
+                        <div>
+                            <label for="mrp_planning_organise"/>
+                            <field name="mrp_planning_organise"/>
+                        </div>
+                        <div>
+                            <label for="mrp_planning_turn"/>
+                            <field name="mrp_planning_turn"/>
+                        </div>
+                    </field>
+                </data>
+            </field>
+        </record>
+        <record id="workcenter_line_gantt" model="ir.ui.view">
+            <field name="name">mrp.production.workcenter.line.gantt</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="arch" type="xml">
+                <gantt date_stop="date_planned_end" date_start="date_planned" string="Operations" default_group_by="workcenter_id">
+                </gantt>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="mrp_production_wc_action_calc">
+            <field name="name">Work Orders Planning</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.production.workcenter.line</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">gantt</field>
+            <field name="help" type="html">
+            </field>
+        </record>
+        <menuitem name="Work Orders" parent="mrp.menu_mrp_planning"
+            id="menu_mrp_production_wc_action_calc"
+            action="mrp_production_wc_action_calc"
+            sequence="2"
+            icon="STOCK_INDENT"/>
+    </data>
+</openerp>
